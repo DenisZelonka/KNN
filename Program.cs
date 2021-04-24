@@ -15,8 +15,8 @@ namespace KNN
             bool userData=false;
             Calculate calculate;
 
-            ReadData data = new ReadData("diabetes_csv.csv");
-            //ReadData data = new ReadData("largefile.csv");
+            ReadData data = new ReadData("CSV_files/diabetes_csv.csv");
+            //ReadData data = new ReadData("CSV_files/largefile.csv");
 
             Console.WriteLine("Clear data? (y/n)");
             if(Console.ReadLine()=="y"){

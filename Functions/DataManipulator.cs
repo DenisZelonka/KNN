@@ -31,7 +31,7 @@ namespace KNN
                 for(int i=0;i<values.Length-1;i++){
                     data[j,i]=float.Parse(values[i],CultureInfo.InvariantCulture);
                 }
-                if(values[8]=="tested_positive"){
+                if(values[values.Length-1]=="tested_positive"){
                     diab[j]=true;
                 }
                 else{

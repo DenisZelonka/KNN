@@ -104,7 +104,7 @@ namespace KNN
         }
 
         public void WriteData(){
-            StreamWriter file = new StreamWriter("CalculationData.txt");
+            StreamWriter file = new StreamWriter("Output_file/CalculationData.txt");
             foreach (string item in text)
             {
                 file.WriteLine(item);
