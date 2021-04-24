@@ -10,7 +10,8 @@ namespace KNN
     {
         private List<string> text= new List<string>();
         private ReadData data;
-        private SortedDictionary<double,bool> distance = new SortedDictionary<double, bool>();
+        private Dictionary<int,double> distance = new Dictionary<int, double>();
+        private Dictionary<int,bool> state= new Dictionary<int, bool>();
         private int k;
         private double calcDistance;
         private int isPositive;
@@ -22,6 +23,7 @@ namespace KNN
         private int falsePositive;
         private int falseNegative;
         private bool userData;
+        private int counter;
         public Calculate(ReadData data,int k,bool userData){
             this.data=data;
             if(k<data.fitData.GetLength(0) && k>5){
@@ -41,24 +43,30 @@ namespace KNN
                         
                         calcDistance=calcDistance + Math.Pow(data.testData[i,p]-data.fitData[j,p],2);
                     }
-                    if(!distance.ContainsKey(Math.Sqrt(calcDistance))){
-                        distance.Add(Math.Sqrt(calcDistance),data.fitDiab[j]);
-                    }
+                    distance.Add(j,Math.Sqrt(calcDistance));
+                    state.Add(j,data.fitDiab[j]);
                     calcDistance=0;
                 }
                 GetPrediction(i);
+                //counter=0;
             }
         }
 
         private void GetPrediction(int index){
             isPositive=0;
-            isNegative=0;           
-            for(int i=0;i<this.k;i++){
-                if(distance.ElementAt(i).Value){
+            isNegative=0;      
+            counter=0;     
+            foreach (KeyValuePair<int,double> item in distance.OrderBy(x => x.Value))
+            {
+                if(state.GetValueOrDefault(item.Key)){
                     isPositive+=1;
                 }
                 else{
                     isNegative+=1;
+                }
+                counter+=1;
+                if(counter==k+1){
+                    break;
                 }
             }
             if(isPositive>isNegative){
@@ -70,6 +78,7 @@ namespace KNN
             AddText(index);
             Predictions(index);
             distance.Clear();
+            state.Clear();
         }
         private void Predictions(int index){
             if(result && data.testDiab[index]){
@@ -87,7 +96,7 @@ namespace KNN
         }
 
         public void GetResult(){
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine("Accuracy: " + (100*(trueNegative+truePositive)/(data.testData.GetLength(0))).ToString() + '%');
             Console.WriteLine();
             Console.WriteLine("False positivity: " + falsePositive.ToString());

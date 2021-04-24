@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using System.Globalization;
+using System.Threading.Tasks;
+
 namespace KNN
 {
     class Program
@@ -15,9 +17,9 @@ namespace KNN
             bool userData=false;
             Calculate calculate;
 
-            ReadData data = new ReadData("CSV_files/diabetes_csv.csv");
-            //ReadData data = new ReadData("CSV_files/largefile.csv");
-
+            //ReadData data = new ReadData("CSV_files/diabetes_csv.csv");
+            ReadData data = new ReadData("CSV_files/largefile.csv");
+            
             Console.WriteLine("Clear data? (y/n)");
             if(Console.ReadLine()=="y"){
                 removeZeros=true;
@@ -25,7 +27,7 @@ namespace KNN
             int[] skipColumn= {0,4,7};
             data.SplitData(removeZeros,skipColumn);
 
-            Console.WriteLine("K-faktor. Best results are between 30-40");
+            Console.WriteLine("K-faktor. Best results are between 30-40 (35)");
             int k= int.Parse(Console.ReadLine());
 
             Console.WriteLine("Use testing values? (y/n)");
