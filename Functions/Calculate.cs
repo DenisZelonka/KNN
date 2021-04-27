@@ -120,14 +120,16 @@ namespace KNN
 
         private void AddText(int index){  
             if(!userData){
-                text.Add(" Patient " + (1+data.fitData.GetLength(0)+index).ToString() + " positivity is " + result.ToString().ToLower() + ". Tested value is "+ data.testDiab[index].ToString().ToLower());
+                text.Add("Patient " + (1+data.fitData.GetLength(0)+index).ToString() + " positivity is " + result.ToString().ToLower() + ". Tested value is "+ data.testDiab[index].ToString().ToLower());
             }
             else{
-                text.Add(" Patient " + (1+index).ToString() + " positivity is " + result.ToString().ToLower() + ". Tested value is "+ data.testDiab[index].ToString().ToLower());
+                text.Add("Patient " + (1+index).ToString() + " positivity is " + result.ToString().ToLower() + ". Tested value is "+ data.testDiab[index].ToString().ToLower());
             }
         }
 
         public void WriteData(string path){
+            Console.ForegroundColor= ConsoleColor.Cyan;
+            Console.WriteLine("Writing patients results to file at: " + "KNN/" + path);
             var paths=path.Split("/");
             int i=0;
             while(!paths[i].Contains(".")){
@@ -144,6 +146,9 @@ namespace KNN
                 file.WriteLine(item);
             }
             file.Close();
+            Console.WriteLine("Writing was successful!");
+            Console.WriteLine();
+            Console.ForegroundColor= ConsoleColor.White;
         }
 
         private void WriteProgress(int i){

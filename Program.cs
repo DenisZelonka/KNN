@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Functions;
 
 namespace KNN
 {
@@ -7,47 +7,17 @@ namespace KNN
     {
         static void Main(string[] args)
         {
+            var color= Console.BackgroundColor;
+            Console.BackgroundColor= ConsoleColor.Black;
+
             bool removeZeros=false;
             bool userData=false;
-
             Calculate calculate;
-            ReadData data;
-            string path="Output_file/CalculationData.txt";            
-            if(args.GetLength(0)>0){
-                switch(args[0]){
-                    case "test":
-                                data= new ReadData("CSV_files/test.csv");
-                                if(args.GetLength(0)>1) path=args[1];
-                                 break;
-                    case "largefile":
-                                data = new ReadData("CSV_files/largefile.csv");
-                                if(args.GetLength(0)>1) path=args[1];
-                                break;
-                    case "myfile":
-                                try
-                                {
-                                    data=new ReadData(args[1]);
-                                    if(args.GetLength(0)>2) path=args[2];
-                                }
-                                catch (System.Exception)
-                                {
-                                    throw;
-                                }
-                                break;
-                    case "diabetes":
-                                data= new ReadData("CSV_files/diabetes_csv.csv");
-                                if(args.GetLength(0)>1) path=args[1];
-                                break;
-                    default : 
-                                data= new ReadData("CSV_files/diabetes_csv.csv");
-                                path="Output_file/CalculationData.txt";
-                                break;
-                }
-            }
-            else{
-                data= new ReadData("CSV_files/diabetes_csv.csv");
-                path="Output_file/CalculationData.txt";
-            }
+            Arguments arguments= new Arguments(args);
+            ReadData data=arguments.GetData();
+             
+            string path= arguments.GetSavePath();
+                    
             Console.ForegroundColor= ConsoleColor.DarkGreen;
             Console.WriteLine("Clear data? (y/n)");
             Console.ForegroundColor= ConsoleColor.White;
@@ -55,8 +25,8 @@ namespace KNN
             if(Console.ReadLine()=="y"){
                 removeZeros=true;
             }
-            int[] skipColumn= {0,4,7};
-            data.SplitData(removeZeros,skipColumn);
+            
+            data.SplitData(removeZeros,arguments.GetColToSkip());
 
             Console.ForegroundColor= ConsoleColor.DarkGreen;
             Console.WriteLine("Use testing values? (y/n)");
@@ -83,7 +53,8 @@ namespace KNN
             catch (System.Exception)
             {
                 throw;
-            }           
+            }  
+            Console.BackgroundColor= color;         
         }
     }
 }
