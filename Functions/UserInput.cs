@@ -12,6 +12,7 @@ namespace KNN
                 int pac= int.Parse(Console.ReadLine());
                 data.testData = new float[pac,8];
                 data.testDiab= new bool[pac];
+                Console.ForegroundColor= ConsoleColor.DarkYellow;
                 while(i<pac){
                     Console.Clear();
                     Console.WriteLine("Number of pregnancies");
@@ -34,6 +35,7 @@ namespace KNN
                     data.testDiab[i]= bool.Parse(Console.ReadLine());
                     i+=1;
                }
+               Console.ForegroundColor= ConsoleColor.White;
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
 using System;
 using System.Globalization;
 namespace KNN
@@ -19,6 +18,7 @@ namespace KNN
         private float[] avg;
         
         public ReadData(string path){
+            Console.WriteLine("Loading data...");
             int len= File.ReadAllLines(path).Count();
             var reader= new StreamReader(path);
             var elem= reader.ReadLine();
@@ -40,8 +40,9 @@ namespace KNN
                 }
                 j+=1;
             } 
-            fitData= new float[(int)(data.GetLength(0)*0.8)+1,8];
-            testData= new float[(int)(data.GetLength(0)*0.2),8];
+            Console.WriteLine("Data loaded successfully!");
+            fitData= new float[(int)(data.GetLength(0)*0.8)+1,data.GetLength(1)];
+            testData= new float[(int)(data.GetLength(0)*0.2),data.GetLength(1)];
             fitDiab= new bool[(int)(data.GetLength(0)*0.8)+1];
             testDiab= new bool[(int)(data.GetLength(0)*0.2)];
            
@@ -49,8 +50,10 @@ namespace KNN
 
         
         public void SplitData(bool removeZeros, int[] skipColumn){   
+            Console.WriteLine("Splitting data...");
             if(removeZeros){  
                 this.GetAvg(skipColumn);
+                Console.WriteLine("Substituting zeros with averages");
             }
             for(int i=0;i<data.GetLength(1)-1;i++){
                 for(int j=0;j<data.GetLength(0);j++){
@@ -80,10 +83,12 @@ namespace KNN
                 }
                 counter=0;
             } 
+            Console.WriteLine("Data splitted successfully!");
             Array.Clear(data,0,data.Length);
             Array.Clear(diab,0,diab.Length);
         }
         private void GetAvg(int[] skipColumn){
+            Console.WriteLine("Getting average");
             for(int i=0;i<data.GetLength(1)-1;i++){
                 for(int j=0;j<data.GetLength(0);j++){
                     if(data[j,i]!=0 && !skipColumn.Contains(i)){
