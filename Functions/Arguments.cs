@@ -59,7 +59,10 @@ namespace Functions
         }
 
         public string GetSavePath(){
-            return this.pathOut;
+            if(this.pathOut!=null) return this.pathOut;
+            else{
+                return "Output_file/CalculationData.txt";
+            }
         }
 
         public int[] GetColToSkip(){
